@@ -56,3 +56,7 @@ export const createSafe = async (userAddress: string) => {
     return null;
   }
 };
+
+export function getSafeUrl(safeAddress: string) {
+  return `https://app.safe.global/home?safe=base:${safeAddress}`;
+}
