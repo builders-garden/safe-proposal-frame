@@ -35,7 +35,7 @@ export const createSafe = async (userAddress: string) => {
   const initData = encodeFunctionData({
     abi: SAFE_SINGLETON_ABI,
     functionName: 'setup',
-    args: [[userAddress], 1, '', '0x', '', '', 0, ''],
+    args: [[userAddress], 1, '', '0x', '0x017062a1dE2FE6b99BE3d9d37841FeD19F573804', '', 0, ''],
   });
 
   const saltNonce = generateSecureSaltNonce(userAddress);
