@@ -8,7 +8,7 @@ const frameMetadata = getFrameMetadata({
       label: 'deploy safe 🚀',
     },
   ],
-  image: `${BASE_URL}/img-1.`,
+  image: `${BASE_URL}/init-img.`,
   post_url: `${BASE_URL}/api/frame`,
 });
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'safe frame',
     description: 'a farcaster frame integrated with safe',
-    images: [`${BASE_URL}/img-2.`],
+    images: [`${BASE_URL}/init-img.`],
   },
   other: {
     ...frameMetadata,
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1>ff.limone.lol</h1>
+      <h1>safe frame by builders.garden</h1>
     </>
   );
 }
