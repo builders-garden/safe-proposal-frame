@@ -1,11 +1,32 @@
+import { FrameRequest, getFrameHtmlResponse, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
+import { createSafe } from '../../../lib/safe';
+import { BASE_URL } from '../../../lib/constants';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-  console.log('API frame route called');
-  return new NextResponse(`<!DOCTYPE html><html><head>
-    <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="https://lemon-frame.vercel.app/img-2.png" />
-  </head></html>`);
+  let accountAddress: string | undefined = '';
+
+  const body: FrameRequest = await req.json();
+  const { isValid, message } = await getFrameMessage(body, {
+    neynarApiKey: process.env.NEYNAR_API_KEY,
+  });
+
+  if (isValid) {
+    accountAddress = message.interactor.verified_accounts[0];
+  }
+
+  await createSafe(accountAddress);
+  return new NextResponse(
+    getFrameHtmlResponse({
+      buttons: [
+        {
+          label: `🌲 ${accountAddress} 🌲`,
+        },
+      ],
+      image: `${BASE_URL}/img-2.png`,
+      post_url: `${BASE_URL}/api/frame`,
+    }),
+  );
 }
 
 export async function POST(req: NextRequest): Promise<Response> {

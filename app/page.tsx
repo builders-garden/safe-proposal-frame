@@ -1,19 +1,24 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
+import { BASE_URL } from '../lib/constants';
 
 const frameMetadata = getFrameMetadata({
-  buttons: ['YES 🍋'],
-  image: 'https://lemon-frame.vercel.app/img-1.png',
-  post_url: 'https://lemon-frame.vercel.app/api/frame',
+  buttons: [
+    {
+      label: 'deploy safe 🚀',
+    },
+  ],
+  image: `${BASE_URL}/img-1.`,
+  post_url: `${BASE_URL}/api/frame`,
 });
 
 export const metadata: Metadata = {
-  title: 'ff.limone.lol',
-  description: 'zesty',
+  title: 'safe frame',
+  description: 'a farcaster frame integrated with safe',
   openGraph: {
-    title: 'ff.limone.lol',
-    description: 'zesty',
-    images: ['https://lemon-frame.vercel.app/img-2.png'],
+    title: 'safe frame',
+    description: 'a farcaster frame integrated with safe',
+    images: [`${BASE_URL}/img-2.`],
   },
   other: {
     ...frameMetadata,
