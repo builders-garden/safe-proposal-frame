@@ -1,5 +1,5 @@
 import { createPublicClient, http } from 'viem';
-import { base } from 'viem/chains';
+import { sepolia } from 'viem/chains';
 import { SAFE_FACTORY, SAFE_SINGLETON_ABI } from './ABI';
 import { createWalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
@@ -17,12 +17,12 @@ const fallbackHandlerAddress = '0x017062a1dE2FE6b99BE3d9d37841FeD19F573804';
 
 const client = createWalletClient({
   account,
-  chain: base,
+  chain: sepolia,
   transport: http(),
 });
 
 const publicClient = createPublicClient({
-  chain: base,
+  chain: sepolia,
   transport: http(),
 });
 
@@ -71,5 +71,5 @@ export const createSafe = async (userAddress: string) => {
 };
 
 export function getSafeUrl(safeAddress: string) {
-  return `https://app.safe.global/home?safe=base:${safeAddress}`;
+  return `https://app.safe.global/home?safe=sepolia:${safeAddress}`;
 }
