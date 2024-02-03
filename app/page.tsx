@@ -9,7 +9,7 @@ const frameMetadata = getFrameMetadata({
       label: 'deploy safe 🚀',
     },
   ],
-  image: `${BASE_URL}/init-img.`,
+  image: `${BASE_URL}/init-img.png`,
   post_url: `${BASE_URL}/api/frame`,
 });
 
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'safe frame',
     description: 'a farcaster frame integrated with safe',
-    images: [`${BASE_URL}/init-img.`],
+    images: [`${BASE_URL}/init-img.png`],
   },
   other: {
     ...frameMetadata,

@@ -23,7 +23,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             label: 'try again ↩️',
           },
         ],
-        image: `${BASE_URL}/error-img.`,
+        image: `${BASE_URL}/error-img.png`,
         post_url: `${BASE_URL}/api/frame`,
       }),
     );
@@ -54,7 +54,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             label: 'try again ↩️',
           },
         ],
-        image: `${BASE_URL}/error-img.`,
+        image: `${BASE_URL}/error-img.png`,
         post_url: `${BASE_URL}/api/frame`,
       }),
     );
