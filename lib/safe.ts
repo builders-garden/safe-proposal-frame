@@ -21,7 +21,10 @@ export const createSafe = async (userAddress: string) => {
     threshold: 1,
   };
 
-  const protocolKitOwner1 = await safeFactory.deploySafe({ safeAccountConfig });
+  const protocolKitOwner1 = await safeFactory.deploySafe({
+    safeAccountConfig,
+    saltNonce: Date.now().toString(),
+  });
 
   const safeAddress = await protocolKitOwner1.getAddress();
   console.log('Safe address:', safeAddress);
