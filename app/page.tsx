@@ -19,8 +19,8 @@ const frameRedirectMetadata = getFrameMetadata({
       action: 'post_redirect',
     },
   ],
-  image: `${BASE_URL}/api/image?address=x`,
-  post_url: `${BASE_URL}/api/redirect?address=x`,
+  image: `${BASE_URL}/api/image?address=0xaE4cFCfD00129537c61E6269963F2325aC73Cf05`,
+  post_url: `${BASE_URL}/api/redirect?address=0xaE4cFCfD00129537c61E6269963F2325aC73Cf05`,
 });
 
 export const metadata: Metadata = {
