@@ -38,6 +38,16 @@ function generateSecureSaltNonce(userAddress: string): BigInt {
 }
 
 export const createSafe = async (userAddress: string) => {
+  console.log([
+    [userAddress],
+    1,
+    ADDRESS_0,
+    numberToBytes(0),
+    FALLBACK_HANDLER_ADDRESS,
+    ADDRESS_0,
+    0,
+    ADDRESS_0,
+  ]);
   const initData = encodeFunctionData({
     abi: SAFE_SINGLETON_ABI,
     functionName: 'setup',
