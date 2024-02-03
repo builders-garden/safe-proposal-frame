@@ -58,7 +58,9 @@ export const createSafe = async (userAddress: string) => {
       args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
       account: accountAddress,
     });
+    console.log({ result, request });
     await client.writeContract(request);
+    console.log('Safe created:', result);
     return result;
   } catch (error) {
     console.error(error);
