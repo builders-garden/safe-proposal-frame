@@ -1,4 +1,4 @@
-import { getFrameMetadata } from '@coinbase/onchainkit';
+import { getFrameHtmlResponse, getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import { BASE_URL } from '../lib/constants';
 
@@ -12,6 +12,17 @@ const frameMetadata = getFrameMetadata({
   post_url: `${BASE_URL}/api/frame`,
 });
 
+const frameRedirectMetadata = getFrameMetadata({
+  buttons: [
+    {
+      label: 'check your safe 📦',
+      action: 'post_redirect',
+    },
+  ],
+  image: `${BASE_URL}/api/image?address=x`,
+  post_url: `${BASE_URL}/api/redirect?address=x`,
+});
+
 export const metadata: Metadata = {
   title: 'safe frame',
   description: 'a farcaster frame integrated with safe',
@@ -21,7 +32,7 @@ export const metadata: Metadata = {
     images: [`${BASE_URL}/init-img.png`],
   },
   other: {
-    ...frameMetadata,
+    ...frameRedirectMetadata,
   },
 };
 

@@ -34,7 +34,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const safeAccountConfig = getSafeConfig(accountAddress);
     const saltNonce = Date.now().toString();
     const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce);
-    const newSafeAddress = createSafe(safeAccountConfig, saltNonce);
+    // const newSafeAddress = createSafe(safeAccountConfig, saltNonce);
     console.log('Predicted safe address:', predictedSafeAddress);
     return new NextResponse(
       getFrameHtmlResponse({
