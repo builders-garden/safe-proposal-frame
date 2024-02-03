@@ -3,14 +3,17 @@ import { base } from 'viem/chains';
 import { SAFE_FACTORY, SAFE_SINGLETON_ABI } from './ABI';
 import { createWalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { encodeFunctionData } from 'viem';
+import { encodeFunctionData, numberToBytes } from 'viem';
 import crypto from 'crypto';
+
 
 const walletPvtKey = process.env.WALLET_PVT_KEY || 'DEFAULT_PRIVATE_KEY';
 const account = privateKeyToAccount(`0x${walletPvtKey}`);
 const accountAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; //TODO: change this to the actual address
 
-const safeSingleton = '0xfb1bffC9d739B8D520DaF37dF666da4C687191EA';
+const safeSingletonAddress = '0xfb1bffC9d739B8D520DaF37dF666da4C687191EA';
+const address0 = '0x0000000000000000000000000000000000000000';
+const fallbackHandlerAddress = '0x017062a1dE2FE6b99BE3d9d37841FeD19F573804';
 
 const client = createWalletClient({
   account,
@@ -23,19 +26,21 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
-function generateSecureSaltNonce(userAddress: string): string {
+function generateSecureSaltNonce(userAddress: string): BigInt {
   const randomValue = crypto.randomBytes(16).toString('hex');
   const rawNonce = `${userAddress}-${Date.now()}-${randomValue}`;
   const hash = crypto.createHash('sha256').update(rawNonce).digest('hex');
+  // Convert hex string to BigInt
+  const hashAsBigInt = BigInt('0x' + hash);
 
-  return hash;
+  return hashAsBigInt;
 }
 
 export const createSafe = async (userAddress: string) => {
   const initData = encodeFunctionData({
     abi: SAFE_SINGLETON_ABI,
     functionName: 'setup',
-    args: [[userAddress], 1, '', '0x', '0x017062a1dE2FE6b99BE3d9d37841FeD19F573804', '', 0, ''],
+    args: [[userAddress], 1, address0, numberToBytes(0), fallbackHandlerAddress, address0, 0, address0],
   });
 
   const saltNonce = generateSecureSaltNonce(userAddress);
@@ -44,7 +49,7 @@ export const createSafe = async (userAddress: string) => {
     const { result } = await publicClient.simulateContract({
       ...SAFE_FACTORY,
       functionName: 'createProxyWithNonce',
-      args: [safeSingleton, initData, saltNonce],
+      args: [safeSingletonAddress, initData, saltNonce],
       account: accountAddress,
       address: `${accountAddress}`,
     });
