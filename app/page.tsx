@@ -12,17 +12,6 @@ const frameMetadata = getFrameMetadata({
   post_url: `${BASE_URL}/api/frame`,
 });
 
-const frameRedirectMetadata = getFrameMetadata({
-  buttons: [
-    {
-      label: 'check your safe 📦',
-      action: 'post_redirect',
-    },
-  ],
-  image: `${BASE_URL}/api/image?address=0xaE4cFCfD00129537c61E6269963F2325aC73Cf05`,
-  post_url: `${BASE_URL}/api/redirect?address=0xaE4cFCfD00129537c61E6269963F2325aC73Cf05`,
-});
-
 export const metadata: Metadata = {
   title: 'safe frame',
   description: 'a farcaster frame integrated with safe',
@@ -32,14 +21,55 @@ export const metadata: Metadata = {
     images: [`${BASE_URL}/init-img.png`],
   },
   other: {
-    ...frameRedirectMetadata,
+    ...frameMetadata,
   },
 };
 
 export default function Page() {
   return (
-    <>
-      <h1>safe frame by builders.garden</h1>
-    </>
+    <div
+      style={{
+        backgroundColor: '#000000',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '3.5rem',
+        width: '100%',
+        height: '100%',
+        alignContent: 'center',
+        alignItems: 'center',
+        gap: '1rem',
+      }}
+    >
+      <a href="https://builders.garden?utm_source=safe-frame" target="_blank">
+        <img src={`${BASE_URL}/builders-garden-logo.png`} height={32} width={104} />
+      </a>
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          color: '#10D63F',
+          fontSize: '48px',
+          textAlign: 'center',
+          fontFamily: 'Raleway-ExtraBold',
+        }}
+      >
+        Safe Frame
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          color: '#10D63F',
+          fontSize: '24px',
+          textAlign: 'center',
+          fontFamily: 'Raleway-Bold',
+        }}
+      >
+        Experimenting with the Safe Protocol Kit inside a Farcaster Frame
+      </div>
+    </div>
   );
 }

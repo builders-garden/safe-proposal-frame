@@ -46,7 +46,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       signerOrProvider: signer,
     });
     const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce, ethAdapter);
-    // const newSafeAddress = createSafe(safeAccountConfig, saltNonce, , ethAdapter);
+    const newSafeAddress = createSafe(safeAccountConfig, saltNonce, ethAdapter);
     console.log('Predicted safe address:', predictedSafeAddress);
     return new NextResponse(
       getFrameHtmlResponse({
