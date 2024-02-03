@@ -3,32 +3,48 @@ import satori from 'satori';
 import * as fs from 'fs';
 import { BASE_URL } from './constants';
 
-const fontPath = join(process.cwd(), 'HirukoBlackAlternate.ttf');
+const fontPath = join(process.cwd(), 'Raleway-Bold.ttf');
 let fontData = fs.readFileSync(fontPath);
 
-const scoreFontPath = join(process.cwd(), 'DK-Smiling-Cat.otf');
-let scoreFontData = fs.readFileSync(scoreFontPath);
+const fontExtraBoldPath = join(process.cwd(), 'Raleway-ExtraBold.ttf');
+let fontExtraBoldData = fs.readFileSync(fontExtraBoldPath);
 
 export const generateImageSvg = async (safeAddress: string): Promise<string> => {
   return await satori(
     <div
       style={{
-        backgroundColor: '#BDE86B',
+        backgroundColor: '#000000',
         display: 'flex',
         flexDirection: 'column',
         padding: '3.5rem',
         width: '100%',
         height: '100%',
         alignContent: 'center',
-        justifyContent: 'space-around',
+        alignItems: 'center',
+        gap: '1rem',
       }}
     >
-      <img src={`${BASE_URL}/builders-garden-logo.png`} height={130} width={42} />
+      <img src={`${BASE_URL}/builders-garden-logo.png`} height={32} width={104} />
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          color: '#10D63F',
+          fontSize: '48px',
+          textAlign: 'center',
+          fontFamily: 'Raleway-ExtraBold',
+        }}
+      >
+        Safe successfully deployed!
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          color: '#10D63F',
+          marginTop: '2rem',
         }}
       >
         {safeAddress}
@@ -40,13 +56,13 @@ export const generateImageSvg = async (safeAddress: string): Promise<string> => 
       fonts: [
         {
           data: fontData,
-          name: 'Hiruko',
+          name: 'Raleway-Bold',
           style: 'normal',
           weight: 400,
         },
         {
-          data: scoreFontData,
-          name: 'DKSmilingCat',
+          data: fontExtraBoldData,
+          name: 'Raleway-ExtraBold',
           style: 'normal',
           weight: 400,
         },

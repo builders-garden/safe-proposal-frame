@@ -1,6 +1,7 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import { BASE_URL } from '../lib/constants';
+import { privateKeyToAccount } from 'viem/accounts';
 
 const frameMetadata = getFrameMetadata({
   buttons: [

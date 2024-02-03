@@ -1,6 +1,6 @@
 import { FrameRequest, getFrameHtmlResponse, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { createSafe } from '../../../lib/safe';
+import { createSafe, getSafeUrl } from '../../../lib/safe';
 import { BASE_URL } from '../../../lib/constants';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -29,18 +29,36 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const newSafeAddress = await createSafe(accountAddress);
-  return new NextResponse(
-    getFrameHtmlResponse({
-      buttons: [
-        {
-          label: 'try again ↩️',
-        },
-      ],
-      image: `${BASE_URL}/api/image?address=${newSafeAddress}.`,
-      post_url: `${BASE_URL}/api/frame`,
-    }),
-  );
+  try {
+    const newSafeAddress = await createSafe(accountAddress);
+    if (!newSafeAddress) {
+      throw new Error('Error creating safe');
+    }
+    return new NextResponse(
+      getFrameHtmlResponse({
+        buttons: [
+          {
+            label: 'check your safe 📦',
+            action: 'post_redirect',
+          },
+        ],
+        image: `${BASE_URL}/api/image?address=${newSafeAddress}.`,
+        post_url: getSafeUrl(newSafeAddress!),
+      }),
+    );
+  } catch (e) {
+    return new NextResponse(
+      getFrameHtmlResponse({
+        buttons: [
+          {
+            label: 'try again ↩️',
+          },
+        ],
+        image: `${BASE_URL}/error-img.`,
+        post_url: `${BASE_URL}/api/frame`,
+      }),
+    );
+  }
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
