@@ -32,10 +32,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   try {
     const newSafeAddress = await createSafe(accountAddress);
-    console.log('New safe address:', newSafeAddress);
     if (!newSafeAddress) {
       throw new Error('Error creating safe');
     }
+    console.log('New safe address:', newSafeAddress);
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
