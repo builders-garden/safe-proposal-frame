@@ -1,7 +1,7 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { getSafeUrl } from '../../../lib/safe';
+import { getSafeUrl } from '../../lib/safe';
 
 export default function RedirectPage() {
   const router = useRouter();
@@ -9,12 +9,17 @@ export default function RedirectPage() {
 
   const address = searchParams.get('address');
 
+  console.log('address', address);
+
   if (!address) {
     throw new Error('Missing address');
   }
 
   useEffect(() => {
+    console.log('here');
     const safeUrl = getSafeUrl(address);
+
+    console.log('safeUrl', safeUrl);
 
     // Perform the redirect
     window.location.href = safeUrl; // For a full page reload redirect
