@@ -1,6 +1,6 @@
 import { createPublicClient, http } from 'viem';
 import { sepolia } from 'viem/chains';
-import { SAFE_FACTORY, SAFE_SINGLETON_ABI } from './ABI';
+import { SAFE_FACTORY_ABI, SAFE_SINGLETON_ABI } from './ABI';
 import { createWalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { encodeFunctionData, numberToBytes } from 'viem';
@@ -52,7 +52,7 @@ export const createSafe = async (userAddress: string) => {
 
   try {
     const { result, request } = await publicClient.simulateContract({
-      ...SAFE_FACTORY,
+      abi: SAFE_FACTORY_ABI,
       address: SAFE_FACTORY_ADDRESS,
       functionName: 'createProxyWithNonce',
       args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
