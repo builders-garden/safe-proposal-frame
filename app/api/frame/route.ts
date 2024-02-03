@@ -35,10 +35,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const saltNonce = Date.now().toString();
     const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce);
     const newSafeAddress = createSafe(safeAccountConfig, saltNonce);
-    if (!newSafeAddress) {
-      throw new Error('Error creating safe');
-    }
-    console.log('New safe address:', newSafeAddress);
+    console.log('Predicted safe address:', predictedSafeAddress);
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
@@ -48,7 +45,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: `${BASE_URL}/api/image?address=${predictedSafeAddress}`,
-        post_url: `${BASE_URL}/redirect?address=${predictedSafeAddress}`,
+        post_url: `${BASE_URL}/api/redirect?address=${predictedSafeAddress}`,
       }),
     );
   } catch (e) {
