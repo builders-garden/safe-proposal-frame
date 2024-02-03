@@ -38,16 +38,6 @@ function generateSecureSaltNonce(userAddress: string): BigInt {
 }
 
 export const createSafe = async (userAddress: string) => {
-  console.log([
-    [userAddress],
-    1,
-    ADDRESS_0,
-    '0x',
-    FALLBACK_HANDLER_ADDRESS,
-    ADDRESS_0,
-    0,
-    ADDRESS_0,
-  ]);
   const initData = encodeFunctionData({
     abi: SAFE_SINGLETON_ABI,
     functionName: 'setup',
@@ -75,6 +65,7 @@ export const createSafe = async (userAddress: string) => {
       args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
       account: accountAddress,
     });
+    console.log('contract simulated', { result });
     await client.writeContract(result);
     return result;
   } catch (error) {
