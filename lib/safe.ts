@@ -5,15 +5,16 @@ import { createWalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { encodeFunctionData, numberToBytes } from 'viem';
 import crypto from 'crypto';
+import {
+  ADDRESS_0,
+  FALLBACK_HANDLER_ADDRESS,
+  SAFE_FACTORY_ADDRESS,
+  SAFE_SINGLETON_ADDRESS,
+} from './constants';
 
 const walletPvtKey = process.env.WALLET_PVT_KEY || 'DEFAULT_PRIVATE_KEY';
 const account = privateKeyToAccount(`0x${walletPvtKey}`);
-const accountAddress = '0x506A0A501EEa89d36B0308d965F78553D75cCBE5';
-
-const safeFactoryAddress = '0xC22834581EbC8527d974F8a1c97E1bEA4EF910BC';
-const safeSingletonAddress = '0xfb1bffC9d739B8D520DaF37dF666da4C687191EA';
-const address0 = '0x0000000000000000000000000000000000000000';
-const fallbackHandlerAddress = '0x017062a1dE2FE6b99BE3d9d37841FeD19F573804';
+const accountAddress = account.address;
 
 const client = createWalletClient({
   account,
@@ -43,23 +44,34 @@ export const createSafe = async (userAddress: string) => {
     args: [
       [userAddress],
       1,
-      address0,
+      ADDRESS_0,
       numberToBytes(0),
-      fallbackHandlerAddress,
-      address0,
+      FALLBACK_HANDLER_ADDRESS,
+      ADDRESS_0,
       0,
-      address0,
+      ADDRESS_0,
     ],
   });
 
+  console.log('initData:', initData);
+
   const saltNonce = generateSecureSaltNonce(userAddress);
 
+  console.log('saltNonce:', saltNonce.toString(16));
+
   try {
+    console.log({
+      ...SAFE_FACTORY,
+      address: SAFE_FACTORY_ADDRESS,
+      functionName: 'createProxyWithNonce',
+      args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
+      account: accountAddress,
+    });
     const { result } = await publicClient.simulateContract({
       ...SAFE_FACTORY,
-      address: safeFactoryAddress,
+      address: SAFE_FACTORY_ADDRESS,
       functionName: 'createProxyWithNonce',
-      args: [safeSingletonAddress, initData, saltNonce],
+      args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
       account: accountAddress,
     });
     await client.writeContract(result);

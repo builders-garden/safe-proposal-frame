@@ -12,7 +12,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   });
 
   if (isValid) {
-    console.log(message.interactor.verified_accounts);
     accountAddress = message.interactor.verified_accounts[0];
   }
 
