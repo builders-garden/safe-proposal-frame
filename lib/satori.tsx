@@ -45,9 +45,23 @@ export const generateImageSvg = async (safeAddress: string): Promise<string> => 
           alignItems: 'center',
           color: '#10D63F',
           marginTop: '2rem',
+          fontSize: '24px',
         }}
       >
         {safeAddress}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          color: '#10D63F',
+          marginTop: '2rem',
+          fontSize: '16px',
+          textAlign: 'center',
+        }}
+      >
+        Make sure to switch your wallet to Sepolia network in order to check your newly deployed Safe!
       </div>
     </div>,
     {
