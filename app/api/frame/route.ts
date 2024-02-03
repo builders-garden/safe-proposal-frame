@@ -12,10 +12,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   });
 
   if (isValid) {
+    console.log(message.interactor.verified_accounts);
     accountAddress = message.interactor.verified_accounts[0];
   }
 
   if (!accountAddress) {
+    console.error('Error: no account address');
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
@@ -47,6 +49,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       }),
     );
   } catch (e) {
+    console.error('Error creating safe', (e as any).message);
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
