@@ -33,6 +33,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   try {
     const newSafeAddress = await createSafe(accountAddress);
+    console.log('New safe address:', newSafeAddress);
     if (!newSafeAddress) {
       throw new Error('Error creating safe');
     }
@@ -49,7 +50,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       }),
     );
   } catch (e) {
-    console.error('Error creating safe', (e as any).message);
+    console.error('Error creating safe', e);
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
