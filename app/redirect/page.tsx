@@ -1,6 +1,5 @@
 'use client';
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
-import { getSafeUrl } from '../../lib/safe';
 
 export default function RedirectPage() {
   const router = useRouter();
@@ -16,12 +15,9 @@ export default function RedirectPage() {
     );
   }
 
-  const safeUrl = getSafeUrl(address);
-  redirect(safeUrl);
-
   return (
     <div>
-      <p>Redirecting...</p>
+      <p>{address}</p>
     </div>
   );
 }
