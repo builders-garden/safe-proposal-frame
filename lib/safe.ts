@@ -14,20 +14,31 @@ const ethAdapterOwner1 = new EthersAdapter({
   signerOrProvider: signer,
 });
 
-export const createSafe = async (userAddress: string) => {
-  const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapterOwner1 });
+export const getSafeConfig = (userAddress: string) => {
   const safeAccountConfig: SafeAccountConfig = {
     owners: [userAddress],
     threshold: 1,
   };
+  return safeAccountConfig;
+};
 
+export const predictSafeAddress = async (
+  safeAccountConfig: SafeAccountConfig,
+  saltNonce: string,
+) => {
+  const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapterOwner1 });
+  const safeAddress = await safeFactory.predictSafeAddress(safeAccountConfig, saltNonce);
+  return safeAddress;
+};
+
+export const createSafe = async (safeAccountConfig: SafeAccountConfig, saltNonce: string) => {
+  const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapterOwner1 });
   const protocolKitOwner1 = await safeFactory.deploySafe({
     safeAccountConfig,
     saltNonce: Date.now().toString(),
   });
 
   const safeAddress = await protocolKitOwner1.getAddress();
-  console.log('Safe address:', safeAddress);
   return safeAddress;
 };
 

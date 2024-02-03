@@ -1,6 +1,5 @@
 'use client';
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 import { getSafeUrl } from '../../lib/safe';
 
 export default function RedirectPage() {

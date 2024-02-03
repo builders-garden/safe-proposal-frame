@@ -1,6 +1,6 @@
 import { FrameRequest, getFrameHtmlResponse, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { createSafe, getSafeUrl } from '../../../lib/safe';
+import { createSafe, getSafeConfig, predictSafeAddress } from '../../../lib/safe';
 import { BASE_URL } from '../../../lib/constants';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -31,7 +31,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const newSafeAddress = await createSafe(accountAddress);
+    const safeAccountConfig = getSafeConfig(accountAddress);
+    const saltNonce = Date.now().toString();
+    const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce);
+    const newSafeAddress = createSafe(safeAccountConfig, saltNonce);
     if (!newSafeAddress) {
       throw new Error('Error creating safe');
     }
@@ -44,8 +47,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             action: 'post_redirect',
           },
         ],
-        image: `${BASE_URL}/api/image?address=${newSafeAddress}`,
-        post_url: `${BASE_URL}/redirect?address=${newSafeAddress}`,
+        image: `${BASE_URL}/api/image?address=${predictedSafeAddress}`,
+        post_url: `${BASE_URL}/redirect?address=${predictedSafeAddress}`,
       }),
     );
   } catch (e) {
