@@ -4,6 +4,7 @@ import { createSafe, getSafeConfig, predictSafeAddress } from '../../../lib/safe
 import { BASE_URL, RPC_URL } from '../../../lib/constants';
 import { ethers } from 'ethers';
 import { EthersAdapter } from '@safe-global/protocol-kit';
+import { getDeployedSafeAddress, setDeployedSafeAddress } from '../../../lib/redis';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -32,10 +33,26 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   }
 
+  const alreadyDeployedSafeAddress = await getDeployedSafeAddress(accountAddress);
+  if (alreadyDeployedSafeAddress && alreadyDeployedSafeAddress !== '') {
+    return new NextResponse(
+      getFrameHtmlResponse({
+        buttons: [
+          {
+            label: 'check your safe 📦',
+            action: 'post_redirect',
+          },
+        ],
+        image: `${BASE_URL}/api/image?address=${alreadyDeployedSafeAddress}`,
+        post_url: `${BASE_URL}/api/redirect?address=${alreadyDeployedSafeAddress}`,
+      }),
+    );
+  }
+
   try {
     const safeAccountConfig = getSafeConfig(accountAddress);
     const saltNonce = Date.now().toString();
-    
+
     const provider = new ethers.JsonRpcProvider(RPC_URL);
 
     // Initialize signers
@@ -48,6 +65,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce, ethAdapter);
     const newSafeAddress = createSafe(safeAccountConfig, saltNonce, ethAdapter);
     console.log('Predicted safe address:', predictedSafeAddress);
+    await setDeployedSafeAddress(accountAddress, predictedSafeAddress);
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
