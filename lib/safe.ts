@@ -51,22 +51,14 @@ export const createSafe = async (userAddress: string) => {
   console.log('saltNonce:', saltNonce.toString(16));
 
   try {
-    console.log({
+    const { result, request } = await publicClient.simulateContract({
       ...SAFE_FACTORY,
       address: SAFE_FACTORY_ADDRESS,
       functionName: 'createProxyWithNonce',
       args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
       account: accountAddress,
     });
-    const { result } = await publicClient.simulateContract({
-      ...SAFE_FACTORY,
-      address: SAFE_FACTORY_ADDRESS,
-      functionName: 'createProxyWithNonce',
-      args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
-      account: accountAddress,
-    });
-    console.log('contract simulated', { result });
-    await client.writeContract(result);
+    await client.writeContract(request);
     return result;
   } catch (error) {
     console.error(error);
