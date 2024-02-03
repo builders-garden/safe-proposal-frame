@@ -1,7 +1,9 @@
 import { FrameRequest, getFrameHtmlResponse, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { createSafe, getSafeConfig, predictSafeAddress } from '../../../lib/safe';
-import { BASE_URL } from '../../../lib/constants';
+import { BASE_URL, RPC_URL } from '../../../lib/constants';
+import { ethers } from 'ethers';
+import { EthersAdapter } from '@safe-global/protocol-kit';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -33,8 +35,18 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   try {
     const safeAccountConfig = getSafeConfig(accountAddress);
     const saltNonce = Date.now().toString();
-    const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce);
-    // const newSafeAddress = createSafe(safeAccountConfig, saltNonce);
+    
+    const provider = new ethers.JsonRpcProvider(RPC_URL);
+
+    // Initialize signers
+    const signer = new ethers.Wallet(process.env.WALLET_PVT_KEY!, provider);
+
+    const ethAdapter = new EthersAdapter({
+      ethers,
+      signerOrProvider: signer,
+    });
+    const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce, ethAdapter);
+    // const newSafeAddress = createSafe(safeAccountConfig, saltNonce, , ethAdapter);
     console.log('Predicted safe address:', predictedSafeAddress);
     return new NextResponse(
       getFrameHtmlResponse({
