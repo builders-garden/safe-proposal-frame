@@ -1,71 +1,31 @@
-import { createPublicClient, http } from 'viem';
-import { sepolia } from 'viem/chains';
-import { SAFE_FACTORY_ABI, SAFE_SINGLETON_ABI } from './ABI';
-import { createWalletClient } from 'viem';
-import { privateKeyToAccount } from 'viem/accounts';
-import { encodeFunctionData, numberToBytes } from 'viem';
-import crypto from 'crypto';
-import {
-  ADDRESS_0,
-  FALLBACK_HANDLER_ADDRESS,
-  SAFE_FACTORY_ADDRESS,
-  SAFE_SINGLETON_ADDRESS,
-} from './constants';
+import { ethers } from 'ethers';
+import { EthersAdapter } from '@safe-global/protocol-kit';
+import { SafeFactory } from '@safe-global/protocol-kit';
+import { SafeAccountConfig } from '@safe-global/protocol-kit';
 
-const walletPvtKey = process.env.WALLET_PVT_KEY || 'DEFAULT_PRIVATE_KEY';
-const account = privateKeyToAccount(`0x${walletPvtKey}`);
-const accountAddress = account.address;
+const RPC_URL = 'https://eth-sepolia.public.blastapi.io';
+const provider = new ethers.JsonRpcProvider(RPC_URL);
 
-const client = createWalletClient({
-  account,
-  chain: sepolia,
-  transport: http(),
+// Initialize signers
+const signer = new ethers.Wallet(process.env.WALLET_PVT_KEY!, provider);
+
+const ethAdapterOwner1 = new EthersAdapter({
+  ethers,
+  signerOrProvider: signer,
 });
-
-const publicClient = createPublicClient({
-  chain: sepolia,
-  transport: http(),
-});
-
-function generateSecureSaltNonce(userAddress: string): BigInt {
-  const randomValue = crypto.randomBytes(16).toString('hex');
-  const rawNonce = `${userAddress}-${Date.now()}-${randomValue}`;
-  const hash = crypto.createHash('sha256').update(rawNonce).digest('hex');
-  // Convert hex string to BigInt
-  const hashAsBigInt = BigInt('0x' + hash);
-
-  return hashAsBigInt;
-}
 
 export const createSafe = async (userAddress: string) => {
-  const initData = encodeFunctionData({
-    abi: SAFE_SINGLETON_ABI,
-    functionName: 'setup',
-    args: [[userAddress], 1, ADDRESS_0, '0x', FALLBACK_HANDLER_ADDRESS, ADDRESS_0, 0, ADDRESS_0],
-  });
+  const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapterOwner1 });
+  const safeAccountConfig: SafeAccountConfig = {
+    owners: [userAddress],
+    threshold: 1,
+  };
 
-  console.log('initData:', initData);
+  const protocolKitOwner1 = await safeFactory.deploySafe({ safeAccountConfig });
 
-  const saltNonce = generateSecureSaltNonce(userAddress);
-
-  console.log('saltNonce:', saltNonce.toString(16));
-
-  try {
-    const { result, request } = await publicClient.simulateContract({
-      abi: SAFE_FACTORY_ABI,
-      address: SAFE_FACTORY_ADDRESS,
-      functionName: 'createProxyWithNonce',
-      args: [SAFE_SINGLETON_ADDRESS, initData, saltNonce],
-      account: accountAddress,
-    });
-    console.log({ result, request });
-    await client.writeContract(request);
-    console.log('Safe created:', result);
-    return result;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  const safeAddress = await protocolKitOwner1.getAddress();
+  console.log('Safe address:', safeAddress);
+  return safeAddress;
 };
 
 export function getSafeUrl(safeAddress: string) {
