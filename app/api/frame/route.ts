@@ -45,7 +45,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: `${BASE_URL}/api/image?address=${newSafeAddress}`,
-        post_url: getSafeUrl(newSafeAddress!),
+        post_url: `${BASE_URL}/redirect?address=${newSafeAddress}`,
       }),
     );
   } catch (e) {
