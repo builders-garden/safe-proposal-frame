@@ -15,7 +15,7 @@ export default function RedirectPage() {
       </div>
     );
   }
-
+  console.log('redirecting to', getSafeUrl(address));
   redirect(getSafeUrl(address));
 
   return (
