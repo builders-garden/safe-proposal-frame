@@ -1,3 +1,3 @@
 # Safe Frame
 
-Farcaster Frame integrating Safe.
+Farcaster Frame integrating Safe.# safe-proposal-frame
