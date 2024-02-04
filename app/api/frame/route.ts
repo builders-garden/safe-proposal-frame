@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createSafe, getSafeConfig, predictSafeAddress } from '../../../lib/safe';
 import { BASE_URL, CONTRACT_ADDRESS, PROPOSAL_ID, RPC_URL } from '../../../lib/constants';
 import { ethers } from 'ethers';
-import { EthersAdapter } from '@safe-global/protocol-kit';
-import { getDeployedSafeAddress, setDeployedSafeAddress } from '../../../lib/redis';
-import { Message } from '@farcaster/core';
 import { getFrameHtml, validateFrameMessage } from 'frames.js';
 import { getContractCallArgs } from '../../../lib/onchain-utils';
 
@@ -32,7 +28,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const provider = new ethers.JsonRpcProvider(RPC_URL);
+    const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
     const signer = new ethers.Wallet(process.env.WALLET_PVT_KEY!, provider);
     const args = getContractCallArgs(body.messageBytes);
 
@@ -43,7 +39,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     return new NextResponse(
       getFrameHtml({
         version: 'vNext',
-        image: `${BASE_URL}/api/image?address=x`,
+                image: `${BASE_URL}/api/image?address=x`,
         postUrl: `${BASE_URL}/api/redirect?address=x`,
       }),
     );
