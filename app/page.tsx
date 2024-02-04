@@ -6,7 +6,10 @@ const initialFrame: Frame = {
   version: 'vNext',
   buttons: [
     {
-      label: 'deploy safe 🚀',
+      label: 'approve ✅',
+    },
+    {
+      label: 'reject ❌',
     },
   ],
   image: `${BASE_URL}/init-img.png`,

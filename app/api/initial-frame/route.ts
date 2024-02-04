@@ -33,21 +33,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const args = getContractCallArgs(body.trustedData.messageBytes);
     console.log('args', args);
 
-    const contractInterface = new ethers.utils.Interface(SAFE_MODULE_ABI);
+    const Contract = new ethers.Contract(MODULE_ADDRESS, SAFE_MODULE_ABI, signer);
 
     console.log('executing tx');
-    console.log([args[0], args[1], args[2], args[3], BigNumber.from(PROPOSAL_ID)]);
-    const tx = signer.sendTransaction({
-      to: MODULE_ADDRESS,
-      value: 0,
-      data: contractInterface.encodeFunctionData('verifyFrameActionBodyMessage', [
-        args[0],
-        args[1],
-        args[2],
-        args[3],
-        PROPOSAL_ID,
-      ]),
-    });
+    const tx = await Contract.verifyFrameActionBodyMessage(...args, BigNumber.from(PROPOSAL_ID));
     console.log('tx done', tx);
     return new NextResponse(
       getFrameHtml({

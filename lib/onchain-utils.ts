@@ -1,6 +1,6 @@
 import { FarcasterNetwork, Message, MessageData, MessageType } from '@farcaster/core';
 
-export const getContractCallArgs = (messageBytes: any): string[] => {
+export const getContractCallArgs = (messageBytes: string): string[] => {
   const message = Message.decode(Buffer.from(messageBytes, 'hex'));
   const messageSignature = message.signature;
 
