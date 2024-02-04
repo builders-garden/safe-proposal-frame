@@ -1,4 +1,3 @@
 # Safe Frame
 
-Farcaster Frame integrating Safe.# safe-proposal-frame
-# safe-proposal-frame
+Farcaster Frame allowing users to vote on a Safe proposal from a Frame.

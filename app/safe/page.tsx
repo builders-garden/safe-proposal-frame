@@ -1,6 +1,7 @@
 'use client';
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { getSafeUrl } from '../../lib/safe';
+import { NextResponse } from 'next/server';
 
 export default function RedirectPage() {
   const router = useRouter();
@@ -16,11 +17,6 @@ export default function RedirectPage() {
     );
   }
   console.log('redirecting to', getSafeUrl(address));
-  redirect(getSafeUrl(address));
 
-  return (
-    <div>
-      <p>{address}</p>
-    </div>
-  );
+  return NextResponse.redirect(getSafeUrl(address), { status: 302 });
 }

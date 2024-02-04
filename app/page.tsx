@@ -1,16 +1,17 @@
-import { getFrameHtmlResponse, getFrameMetadata } from '@coinbase/onchainkit';
+import { Frame, getFrameFlattened } from 'frames.js';
 import type { Metadata } from 'next';
 import { BASE_URL } from '../lib/constants';
 
-const frameMetadata = getFrameMetadata({
+const initialFrame: Frame = {
+  version: 'vNext',
   buttons: [
     {
       label: 'deploy safe 🚀',
     },
   ],
   image: `${BASE_URL}/init-img.png`,
-  post_url: `${BASE_URL}/api/frame`,
-});
+  postUrl: `${BASE_URL}/api/frame`,
+};
 
 export const metadata: Metadata = {
   title: 'safe frame',
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     images: [`${BASE_URL}/init-img.png`],
   },
   other: {
-    ...frameMetadata,
+    ...getFrameFlattened(initialFrame),
   },
 };
 

@@ -1,94 +1,64 @@
-import { FrameRequest, getFrameHtmlResponse, getFrameMessage } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { createSafe, getSafeConfig, predictSafeAddress } from '../../../lib/safe';
-import { BASE_URL, RPC_URL } from '../../../lib/constants';
+import { BASE_URL, CONTRACT_ADDRESS, PROPOSAL_ID, RPC_URL } from '../../../lib/constants';
 import { ethers } from 'ethers';
 import { EthersAdapter } from '@safe-global/protocol-kit';
 import { getDeployedSafeAddress, setDeployedSafeAddress } from '../../../lib/redis';
+import { Message } from '@farcaster/core';
+import { getFrameHtml, validateFrameMessage } from 'frames.js';
+import { getContractCallArgs } from '../../../lib/onchain-utils';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
 
-  const body: FrameRequest = await req.json();
-  const { isValid, message } = await getFrameMessage(body, {
-    neynarApiKey: process.env.NEYNAR_API_KEY,
-  });
+  const body = await req.json();
 
-  if (isValid) {
-    accountAddress = message.interactor.verified_accounts[0];
-  }
+  const { isValid, message } = await validateFrameMessage(body);
 
-  if (!accountAddress) {
-    console.error('Error: no account address');
+  if (!isValid) {
+    console.error('Error: invalid message');
     return new NextResponse(
-      getFrameHtmlResponse({
+      getFrameHtml({
+        version: 'vNext',
         buttons: [
           {
             label: 'try again ↩️',
           },
         ],
         image: `${BASE_URL}/error-img.png`,
-        post_url: `${BASE_URL}/api/frame`,
-      }),
-    );
-  }
-
-  const alreadyDeployedSafeAddress = await getDeployedSafeAddress(accountAddress);
-  if (alreadyDeployedSafeAddress && alreadyDeployedSafeAddress !== '') {
-    return new NextResponse(
-      getFrameHtmlResponse({
-        buttons: [
-          {
-            label: 'check your safe 📦',
-            action: 'post_redirect',
-          },
-        ],
-        image: `${BASE_URL}/api/image?address=${alreadyDeployedSafeAddress}`,
-        post_url: `${BASE_URL}/api/redirect?address=${alreadyDeployedSafeAddress}`,
+        postUrl: `${BASE_URL}/api/frame`,
       }),
     );
   }
 
   try {
-    const safeAccountConfig = getSafeConfig(accountAddress);
-    const saltNonce = Date.now().toString();
-
     const provider = new ethers.JsonRpcProvider(RPC_URL);
-
-    // Initialize signers
     const signer = new ethers.Wallet(process.env.WALLET_PVT_KEY!, provider);
+    const args = getContractCallArgs(body.messageBytes);
 
-    const ethAdapter = new EthersAdapter({
-      ethers,
-      signerOrProvider: signer,
-    });
-    const predictedSafeAddress = await predictSafeAddress(safeAccountConfig, saltNonce, ethAdapter);
-    const newSafeAddress = createSafe(safeAccountConfig, saltNonce, ethAdapter);
-    console.log('Predicted safe address:', predictedSafeAddress);
-    await setDeployedSafeAddress(accountAddress, predictedSafeAddress);
+    const Contract = new ethers.Contract(CONTRACT_ADDRESS, abi);
+
+    const tx = Contract.verifyFrameActionBodyMessage(...args, PROPOSAL_ID);
+
     return new NextResponse(
-      getFrameHtmlResponse({
-        buttons: [
-          {
-            label: 'check your safe 📦',
-            action: 'post_redirect',
-          },
-        ],
-        image: `${BASE_URL}/api/image?address=${predictedSafeAddress}`,
-        post_url: `${BASE_URL}/api/redirect?address=${predictedSafeAddress}`,
+      getFrameHtml({
+        version: 'vNext',
+        image: `${BASE_URL}/api/image?address=x`,
+        postUrl: `${BASE_URL}/api/redirect?address=x`,
       }),
     );
   } catch (e) {
     console.error('Error creating safe', e);
     return new NextResponse(
-      getFrameHtmlResponse({
+      getFrameHtml({
+        version: 'vNext',
         buttons: [
           {
             label: 'try again ↩️',
           },
         ],
         image: `${BASE_URL}/error-img.png`,
-        post_url: `${BASE_URL}/api/frame`,
+        postUrl: `${BASE_URL}/api/frame`,
       }),
     );
   }
