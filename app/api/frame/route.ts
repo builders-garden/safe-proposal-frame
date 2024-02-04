@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSafe, getSafeConfig, predictSafeAddress } from '../../../lib/safe';
-import { BASE_URL, CONTRACT_ADDRESS, PROPOSAL_ID, RPC_URL } from '../../../lib/constants';
+import { BASE_URL, MODULE_ADDRESS, PROPOSAL_ID, RPC_URL } from '../../../lib/constants';
 import { ethers } from 'ethers';
 import { EthersAdapter } from '@safe-global/protocol-kit';
 import { getDeployedSafeAddress, setDeployedSafeAddress } from '../../../lib/redis';
 import { Message } from '@farcaster/core';
 import { getFrameHtml, validateFrameMessage } from 'frames.js';
 import { getContractCallArgs } from '../../../lib/onchain-utils';
+import { SAFE_MODULE_ABI } from '../../../lib/ABI';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
@@ -36,7 +37,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const signer = new ethers.Wallet(process.env.WALLET_PVT_KEY!, provider);
     const args = getContractCallArgs(body.messageBytes);
 
-    const Contract = new ethers.Contract(CONTRACT_ADDRESS, abi);
+    const Contract = new ethers.Contract(MODULE_ADDRESS, SAFE_MODULE_ABI);
 
     const tx = Contract.verifyFrameActionBodyMessage(...args, PROPOSAL_ID);
 
