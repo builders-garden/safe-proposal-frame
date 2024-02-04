@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BASE_URL, CONTRACT_ADDRESS, PROPOSAL_ID, RPC_URL } from '../../../lib/constants';
+import { BASE_URL, MODULE_ADDRESS, PROPOSAL_ID, RPC_URL } from '../../../lib/constants';
 import { ethers } from 'ethers';
 import { getFrameHtml, validateFrameMessage } from 'frames.js';
 import { getContractCallArgs } from '../../../lib/onchain-utils';
@@ -10,7 +10,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const body = await req.json();
 
-  const { isValid, message } = await validateFrameMessage(body);
+  const { isValid } = await validateFrameMessage(body);
 
   if (!isValid) {
     console.error('Error: invalid message');
@@ -33,14 +33,14 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const signer = new ethers.Wallet(process.env.WALLET_PVT_KEY!, provider);
     const args = getContractCallArgs(body.messageBytes);
 
-    const Contract = new ethers.Contract(MODULE_ADDRESS, SAFE_MODULE_ABI);
+    const Contract = new ethers.Contract(MODULE_ADDRESS, SAFE_MODULE_ABI, signer);
 
-    const tx = Contract.verifyFrameActionBodyMessage(...args, PROPOSAL_ID);
+    const tx = await Contract.verifyFrameActionBodyMessage(...args, PROPOSAL_ID);
 
     return new NextResponse(
       getFrameHtml({
         version: 'vNext',
-                image: `${BASE_URL}/api/image?address=x`,
+        image: `${BASE_URL}/api/image?address=x`,
         postUrl: `${BASE_URL}/api/redirect?address=x`,
       }),
     );
