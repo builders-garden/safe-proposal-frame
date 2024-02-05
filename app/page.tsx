@@ -17,11 +17,11 @@ const initialFrame: Frame = {
 };
 
 export const metadata: Metadata = {
-  title: 'safe frame',
-  description: 'a farcaster frame integrated with safe',
+  title: 'safe proposal frame',
+  description: 'a farcaster frame integrated with safe proposals',
   openGraph: {
-    title: 'safe frame',
-    description: 'a farcaster frame integrated with safe',
+    title: 'safe proposal frame',
+    description: 'a farcaster frame integrated with safe proposals',
     images: [`${BASE_URL}/init-img.png`],
   },
   other: {
@@ -59,7 +59,7 @@ export default function Page() {
           fontFamily: 'Raleway-ExtraBold',
         }}
       >
-        Safe Frame
+        Safe Proposal Frame
       </div>
       <div
         style={{
@@ -72,7 +72,7 @@ export default function Page() {
           fontFamily: 'Raleway-Bold',
         }}
       >
-        Experimenting with the Safe Protocol Kit inside a Farcaster Frame
+        Experimenting with the Safe Modules and Proposals inside a Farcaster Frame
       </div>
     </div>
   );

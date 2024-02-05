@@ -1,0 +1,53 @@
+import { getFrameHtml } from 'frames.js';
+import { BASE_URL } from './constants';
+
+export const tryAgainResponse = () =>
+  getFrameHtml({
+    version: 'vNext',
+    buttons: [
+      {
+        label: 'try again ↩️',
+      },
+    ],
+    image: `${BASE_URL}/error-img.png`,
+    postUrl: `${BASE_URL}/api/init`,
+  });
+
+export const resultsResponse = (proposalId: string) =>
+  getFrameHtml({
+    version: 'vNext',
+    buttons: [
+      {
+        label: 'refresh 🔄',
+      },
+    ],
+    image: `${BASE_URL}/api/images/results?proposalId=${proposalId}`,
+    postUrl: `${BASE_URL}/api/results?proposalId=${proposalId}`,
+  });
+
+export const invalidFidResponse = (fid: string, minFid: number) =>
+  getFrameHtml({
+    version: 'vNext',
+    buttons: [
+      {
+        label: 'check proposal status ↩️',
+      },
+    ],
+    image: `${BASE_URL}/api/images/invalid-fid?fid=${fid}&minFid=${minFid}`,
+    postUrl: `${BASE_URL}/api/results?proposalId=${fid}`,
+  });
+
+export const initialFrameResponse = () =>
+  getFrameHtml({
+    version: 'vNext',
+    buttons: [
+      {
+        label: 'approve ✅',
+      },
+      {
+        label: 'reject ❌',
+      },
+    ],
+    image: `${BASE_URL}/init-img.png`,
+    postUrl: `${BASE_URL}/api/frame`,
+  });

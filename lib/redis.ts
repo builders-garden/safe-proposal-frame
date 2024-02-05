@@ -1,9 +1,9 @@
 import { kv } from '@vercel/kv';
 
-export const setDeployedSafeAddress = async (address: string, safeAddress: string) => {
-  return await kv.set(address, safeAddress);
+export const setVoted = async (fid: string) => {
+  return await kv.set(fid, 'voted');
 };
 
-export const getDeployedSafeAddress = async (address: string) => {
-  return await kv.get(address);
+export const getVoted = async (fid: string) => {
+  return await kv.get(fid);
 };

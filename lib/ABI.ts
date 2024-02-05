@@ -504,432 +504,458 @@ export const SAFE_FACTORY_ABI = [
 
 export const SAFE_MODULE_ABI = [
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
+        internalType: 'address',
+        name: 'token',
+        type: 'address',
       },
       {
-        "internalType": "address",
-        "name": "_safe",
-        "type": "address"
-      }
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'address',
+        name: 'to',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'threshold',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'minFid',
+        type: 'uint256',
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    name: 'createProposal',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "InvalidEncoding",
-    "type": "error"
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'proposalId',
+        type: 'uint256',
+      },
+    ],
+    name: 'executeProposal',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "InvalidMessageType",
-    "type": "error"
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_owner',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_safe',
+        type: 'address',
+      },
+    ],
+    name: 'init',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "InvalidSignature",
-    "type": "error"
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_owner',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_safe',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint64",
-        "name": "fid",
-        "type": "uint64"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "text",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint64[]",
-        "name": "mentions",
-        "type": "uint64[]"
-      }
-    ],
-    "name": "MessageCastAddVerified",
-    "type": "event"
+    inputs: [],
+    name: 'InvalidEncoding',
+    type: 'error',
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint64",
-        "name": "fid",
-        "type": "uint64"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "button_index",
-        "type": "uint32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint64",
-        "name": "target_fid",
-        "type": "uint64"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes",
-        "name": "target_hash",
-        "type": "bytes"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes",
-        "name": "url",
-        "type": "bytes"
-      }
-    ],
-    "name": "MessageFrameActionBodyVerified",
-    "type": "event"
+    inputs: [],
+    name: 'InvalidMessageType',
+    type: 'error',
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint64",
-        "name": "fid",
-        "type": "uint64"
-      },
-      {
-        "indexed": false,
-        "internalType": "enum ReactionType",
-        "name": "reaction_type",
-        "type": "uint8"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint64",
-        "name": "target_fid",
-        "type": "uint64"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes",
-        "name": "target_hash",
-        "type": "bytes"
-      }
-    ],
-    "name": "MessageReactionAddVerified",
-    "type": "event"
+    inputs: [],
+    name: 'InvalidSignature',
+    type: 'error',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "proposalId",
-        "type": "uint256"
+        indexed: false,
+        internalType: 'uint64',
+        name: 'fid',
+        type: 'uint64',
       },
       {
-        "indexed": false,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
+        indexed: false,
+        internalType: 'string',
+        name: 'text',
+        type: 'string',
       },
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        indexed: false,
+        internalType: 'uint64[]',
+        name: 'mentions',
+        type: 'uint64[]',
       },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "threshold",
-        "type": "uint256"
-      }
     ],
-    "name": "ProposalCreated",
-    "type": "event"
+    name: 'MessageCastAddVerified',
+    type: 'event',
   },
   {
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
+        indexed: false,
+        internalType: 'uint64',
+        name: 'fid',
+        type: 'uint64',
       },
       {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        indexed: false,
+        internalType: 'uint32',
+        name: 'button_index',
+        type: 'uint32',
       },
       {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
+        indexed: false,
+        internalType: 'uint64',
+        name: 'target_fid',
+        type: 'uint64',
       },
       {
-        "internalType": "uint256",
-        "name": "threshold",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: 'bytes',
+        name: 'target_hash',
+        type: 'bytes',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes',
+        name: 'url',
+        type: 'bytes',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'proposalId',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'bool',
+        name: 'isAccept',
+        type: 'bool',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'acceptVotes',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'rejectVotes',
+        type: 'uint256',
+      },
     ],
-    "name": "createProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'MessageFrameActionBodyVerified',
+    type: 'event',
   },
   {
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "proposalId",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: 'uint64',
+        name: 'fid',
+        type: 'uint64',
+      },
+      {
+        indexed: false,
+        internalType: 'enum ReactionType',
+        name: 'reaction_type',
+        type: 'uint8',
+      },
+      {
+        indexed: false,
+        internalType: 'uint64',
+        name: 'target_fid',
+        type: 'uint64',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes',
+        name: 'target_hash',
+        type: 'bytes',
+      },
     ],
-    "name": "executeProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'MessageReactionAddVerified',
+    type: 'event',
   },
   {
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
+        indexed: false,
+        internalType: 'uint256',
+        name: 'proposalId',
+        type: 'uint256',
       },
       {
-        "internalType": "address",
-        "name": "_safe",
-        "type": "address"
-      }
+        indexed: false,
+        internalType: 'address',
+        name: 'token',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'to',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'threshold',
+        type: 'uint256',
+      },
     ],
-    "name": "init",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'ProposalCreated',
+    type: 'event',
   },
   {
-    "inputs": [],
-    "name": "initialized",
-    "outputs": [
+    inputs: [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
+        internalType: 'bytes32',
+        name: 'public_key',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'signature_r',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'signature_s',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes',
+        name: 'message',
+        type: 'bytes',
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    name: 'verifyCastAddMessage',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "minFid",
-    "outputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: 'bytes32',
+        name: 'public_key',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'signature_r',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'signature_s',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes',
+        name: 'message',
+        type: 'bytes',
+      },
+      {
+        internalType: 'uint256',
+        name: 'proposalId',
+        type: 'uint256',
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    name: 'verifyFrameActionBodyMessage',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: 'bytes32',
+        name: 'public_key',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'signature_r',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'signature_s',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes',
+        name: 'message',
+        type: 'bytes',
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    name: 'verifyReactionAddMessage',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "inputs": [
+    inputs: [],
+    name: 'initialized',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
     ],
-    "name": "proposals",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "threshold",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "acceptVotes",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "rejectVotes",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "safe",
-    "outputs": [
+    inputs: [],
+    name: 'owner',
+    outputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "public_key",
-        "type": "bytes32"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
       },
-      {
-        "internalType": "bytes32",
-        "name": "signature_r",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "signature_s",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes",
-        "name": "message",
-        "type": "bytes"
-      }
     ],
-    "name": "verifyCastAddMessage",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'proposals',
+    outputs: [
+      {
+        internalType: 'address',
+        name: 'token',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'address',
+        name: 'to',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'threshold',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'acceptVotes',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'rejectVotes',
+        type: 'uint256',
+      },
+      {
+        internalType: 'bool',
+        name: 'terminated',
+        type: 'bool',
+      },
+      {
+        internalType: 'uint256',
+        name: 'minFid',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [
+    inputs: [],
+    name: 'safe',
+    outputs: [
       {
-        "internalType": "bytes32",
-        "name": "public_key",
-        "type": "bytes32"
+        internalType: 'address',
+        name: '',
+        type: 'address',
       },
-      {
-        "internalType": "bytes32",
-        "name": "signature_r",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "signature_s",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes",
-        "name": "message",
-        "type": "bytes"
-      },
-      {
-        "internalType": "uint256",
-        "name": "proposalId",
-        "type": "uint256"
-      }
     ],
-    "name": "verifyFrameActionBodyMessage",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "public_key",
-        "type": "bytes32"
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
       },
       {
-        "internalType": "bytes32",
-        "name": "signature_r",
-        "type": "bytes32"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
       },
-      {
-        "internalType": "bytes32",
-        "name": "signature_s",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes",
-        "name": "message",
-        "type": "bytes"
-      }
     ],
-    "name": "verifyReactionAddMessage",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'voted',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "voted",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
-]
+];
