@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { MODULE_ADDRESS, RPC_URL } from './constants';
 import { SAFE_MODULE_ABI } from './ABI';
 import { getContractCallArgs } from './onchain-utils';
+import crypto from 'crypto';
 
 export const getEthers = () => {
   const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
@@ -12,7 +13,11 @@ export const getEthers = () => {
   };
 };
 
-export const sendVoteTransaction = async (messageBytes: string, proposalId: string) => {
+export const sendVoteTransaction = async (
+  messageBytes: string,
+  proposalId: string,
+  fid: string,
+) => {
   const { signer } = getEthers();
   const contractInterface = new ethers.utils.Interface(SAFE_MODULE_ABI);
 
@@ -31,5 +36,6 @@ export const sendVoteTransaction = async (messageBytes: string, proposalId: stri
       args[3],
       proposalId,
     ]),
+    nonce: crypto.createHash('md5').update(fid).digest('hex'),
   });
 };
