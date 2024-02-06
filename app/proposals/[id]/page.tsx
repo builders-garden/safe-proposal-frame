@@ -1,4 +1,53 @@
-import { BASE_URL } from '../lib/constants';
+import { Frame, getFrameFlattened } from 'frames.js';
+import type { Metadata } from 'next';
+import { BASE_URL } from '../../../lib/constants';
+import { getProposal } from '../../../lib/the-graph';
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const id = params.id;
+  const proposal = await getProposal(id);
+
+  if (!proposal) {
+    return {
+      title: `Proposal #${id}`,
+      openGraph: {
+        title: `Proposal #${id}`,
+      },
+      metadataBase: new URL(BASE_URL || ''),
+    };
+  }
+
+  const fcMetadata: Record<string, string> = getFrameFlattened({
+    version: 'vNext',
+    buttons: [
+      {
+        label: 'approve ✅',
+      },
+      {
+        label: 'reject ❌',
+      },
+    ],
+    image: `${BASE_URL}/api/proposals/1/image`,
+    postUrl: `${BASE_URL}/api/proposals/1`,
+  });
+
+  return {
+    title: `Proposal #${id}`,
+    openGraph: {
+      title: `Proposal #${id}`,
+      images: [`${BASE_URL}/api/proposals/${id}/image`],
+    },
+    other: {
+      ...fcMetadata,
+    },
+    metadataBase: new URL(BASE_URL || ''),
+  };
+}
 
 export default function Page() {
   return (

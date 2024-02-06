@@ -1,7 +1,7 @@
 import { getFrameHtml } from 'frames.js';
 import { BASE_URL } from './constants';
 
-export const tryAgainResponse = () =>
+export const tryAgainResponse = (id: string) =>
   getFrameHtml({
     version: 'vNext',
     buttons: [
@@ -10,7 +10,7 @@ export const tryAgainResponse = () =>
       },
     ],
     image: `${BASE_URL}/error-img.png`,
-    postUrl: `${BASE_URL}/api/init`,
+    postUrl: `${BASE_URL}/api/proposals/${id}/init`,
   });
 
 export const resultsResponse = (proposalId: string) =>
@@ -37,7 +37,7 @@ export const invalidFidResponse = (fid: string, minFid: number) =>
     postUrl: `${BASE_URL}/api/results?proposalId=${fid}`,
   });
 
-export const initialFrameResponse = () =>
+export const initialFrameResponse = (proposalId: string) =>
   getFrameHtml({
     version: 'vNext',
     buttons: [
@@ -49,5 +49,5 @@ export const initialFrameResponse = () =>
       },
     ],
     image: `${BASE_URL}/init-img.png`,
-    postUrl: `${BASE_URL}/api/frame`,
+    postUrl: `${BASE_URL}/api/proposals/${proposalId}`,
   });

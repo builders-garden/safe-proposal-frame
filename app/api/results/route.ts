@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { BASE_URL } from '../../../lib/constants';
 import { FrameActionPayload, getFrameHtml, validateFrameMessage } from 'frames.js';
+import { resultsResponse, tryAgainResponse } from '../../../lib/frame-responses';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(req.url);
@@ -12,32 +13,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (!isValid) {
     console.error('Error: invalid message');
-    return new NextResponse(
-      getFrameHtml({
-        version: 'vNext',
-        buttons: [
-          {
-            label: 'try again ↩️',
-          },
-        ],
-        image: `${BASE_URL}/error-img.png`,
-        postUrl: `${BASE_URL}/api/frame`,
-      }),
-    );
+    return new NextResponse(tryAgainResponse(proposalId));
   }
 
-  return new NextResponse(
-    getFrameHtml({
-      version: 'vNext',
-      buttons: [
-        {
-          label: 'refresh 🔄',
-        },
-      ],
-      image: `${BASE_URL}/api/results-image?proposalId=${proposalId}`,
-      postUrl: `${BASE_URL}/api/results?proposalId=${proposalId}`,
-    }),
-  );
+  return new NextResponse(resultsResponse(proposalId));
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
