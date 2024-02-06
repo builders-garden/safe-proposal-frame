@@ -5,9 +5,6 @@ import { getProposal } from '../../../../lib/the-graph';
 export const GET = async (req: Request, res: Response) => {
   const { searchParams } = new URL(req.url);
   const proposalId = searchParams.get('proposalId')!;
-
-  console.log(proposalId)
-
   const proposal = await getProposal(proposalId);
 
   if (!proposal) {

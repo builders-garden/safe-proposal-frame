@@ -49,9 +49,6 @@ export const getProposal = async (proposalId: string): Promise<Proposal | null> 
     uri: API_URL,
     cache: new InMemoryCache(),
   });
-
-  console.log('Fetching proposal', { proposalId });
-
   const proposalsQuery = `
     {
       proposals(where: {id: ${proposalId.toString()}}) {

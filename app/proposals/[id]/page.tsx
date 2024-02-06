@@ -32,8 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         label: 'reject ❌',
       },
     ],
-    image: `${BASE_URL}/api/proposals/1/image`,
-    postUrl: `${BASE_URL}/api/proposals/1`,
+    image: `${BASE_URL}/api/proposals/${id}/image`,
+    postUrl: `${BASE_URL}/api/proposals/${id}`,
   });
 
   return {
