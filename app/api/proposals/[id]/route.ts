@@ -32,7 +32,10 @@ async function getResponse(
     return new NextResponse(tryAgainResponse(id));
   }
 
-  if (parseInt(proposal.votesCount) >= parseInt(proposal.treshold)) {
+  if (
+    parseInt(proposal.acceptedVotes) >= parseInt(proposal.treshold) ||
+    parseInt(proposal.rejectedVotes) >= parseInt(proposal.treshold)
+  ) {
     console.error(`Proposal threshold reached`);
     return new NextResponse(thresholdReachedResponse(id));
   }

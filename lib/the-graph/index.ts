@@ -49,7 +49,7 @@ export interface Proposal {
   votes: {
     id: string;
   }[];
-  votesCount: string;
+  votesCounter: string;
   minimumFid: string;
   acceptedVotes: string;
   rejectedVotes: string;
@@ -69,6 +69,7 @@ export const getProposal = async (proposalId: string): Promise<Proposal | null> 
         votes {
           id
         }
+        votesCounter
         acceptedVotes
         rejectedVotes
         minimumFid
