@@ -60,7 +60,7 @@ export const alreadyVotedResponse = (proposalId: string) =>
         label: 'check proposal status 📊',
       },
     ],
-    image: `${BASE_URL}/api/images/already-voted-img.png`,
+    image: `${BASE_URL}/already-voted-img.png`,
     postUrl: `${BASE_URL}/api/results?proposalId=${proposalId}`,
   });
 
@@ -72,6 +72,6 @@ export const thresholdReachedResponse = (proposalId: string) =>
         label: 'check proposal status ↩📊',
       },
     ],
-    image: `${BASE_URL}/api/images/threshold-reached-img.png`,
+    image: `${BASE_URL}/threshold-reached-img.png`,
     postUrl: `${BASE_URL}/api/results?proposalId=${proposalId}`,
   });
