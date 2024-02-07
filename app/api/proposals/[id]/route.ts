@@ -5,6 +5,7 @@ import { sendVoteTransaction } from '../../../../lib/ethers';
 import {
   invalidFidResponse,
   resultsResponse,
+  thresholdReachedResponse,
   tryAgainResponse,
 } from '../../../../lib/frame-responses';
 import { getProposal, hasVoted } from '../../../../lib/the-graph';
@@ -30,10 +31,15 @@ async function getResponse(
     return new NextResponse(tryAgainResponse(id));
   }
 
+  if (proposal.votesCount >= proposal.treshold) {
+    console.error(`Proposal threshold reached`);
+    return new NextResponse(thresholdReachedResponse(id));
+  }
+
   if (message?.data.fid! > 20000) {
     console.error('Error: invalid fid', { fid: message?.data.fid, minFid: proposal?.minimumFid });
     return new NextResponse(
-      invalidFidResponse(message!.data.fid!.toString(), parseInt(proposal?.minimumFid!)),
+      invalidFidResponse(message!.data.fid!.toString(), parseInt(proposal?.minimumFid!), id),
     );
   }
 
@@ -44,7 +50,7 @@ async function getResponse(
     }
 
     console.log('Sending vote transaction');
-    await sendVoteTransaction(body.trustedData.messageBytes, id);
+    await sendVoteTransaction(body.trustedData.messageBytes, id, message?.data.fid!.toString()!);
     console.log('Vote transaction sent');
 
     return new NextResponse(resultsResponse(id));
