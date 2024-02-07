@@ -2,7 +2,6 @@ import { ethers } from 'ethers';
 import { MODULE_ADDRESS, RPC_URL } from './constants';
 import { SAFE_MODULE_ABI } from './ABI';
 import { getContractCallArgs } from './onchain-utils';
-import crypto from 'crypto';
 
 export const getEthers = () => {
   const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
@@ -19,8 +18,6 @@ export const sendVoteTransaction = async (messageBytes: string, proposalId: stri
 
   const args = getContractCallArgs(messageBytes);
 
-  const contract = new ethers.Contract(MODULE_ADDRESS, SAFE_MODULE_ABI, signer);
-
   signer.sendTransaction({
     to: MODULE_ADDRESS,
     value: 0,
@@ -32,6 +29,5 @@ export const sendVoteTransaction = async (messageBytes: string, proposalId: stri
       args[3],
       proposalId,
     ]),
-    nonce: Date.now(),
   });
 };
