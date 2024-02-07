@@ -3,6 +3,7 @@ import { PROPOSAL_ID } from '../../../../lib/constants';
 import { FrameActionPayload, validateFrameMessage } from 'frames.js';
 import { sendVoteTransaction } from '../../../../lib/ethers';
 import {
+  alreadyVotedResponse,
   invalidFidResponse,
   resultsResponse,
   thresholdReachedResponse,
@@ -46,7 +47,7 @@ async function getResponse(
   try {
     const didVote = await hasVoted(message?.data.fid!.toString()!, id.toString());
     if (didVote) {
-      return new NextResponse(resultsResponse(id));
+      return new NextResponse(alreadyVotedResponse(id));
     }
 
     console.log('Sending vote transaction');
