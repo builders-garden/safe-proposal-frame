@@ -48,7 +48,7 @@ export const initialFrameResponse = (proposalId: string) =>
         label: 'reject ❌',
       },
     ],
-    image: `${BASE_URL}/init-img.png`,
+    image: `${BASE_URL}/api/proposals/${proposalId}/image`,
     postUrl: `${BASE_URL}/api/proposals/${proposalId}`,
   });
 
