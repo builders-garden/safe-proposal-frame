@@ -1,11 +1,23 @@
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { ApolloClient, DefaultOptions, InMemoryCache, gql } from '@apollo/client';
 
 const API_URL = 'https://api.thegraph.com/subgraphs/name/soliditydrone/safe-proposal-frame';
+
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+  },
+};
 
 export const getVotes = async (fid: string, proposalId: string) => {
   const client = new ApolloClient({
     uri: API_URL,
     cache: new InMemoryCache(),
+    defaultOptions,
   });
 
   console.log(fid, proposalId);
@@ -48,6 +60,7 @@ export const getProposal = async (proposalId: string): Promise<Proposal | null> 
   const client = new ApolloClient({
     uri: API_URL,
     cache: new InMemoryCache(),
+    defaultOptions,
   });
   const proposalsQuery = `
     {
