@@ -16,7 +16,6 @@ export const getEthers = () => {
 export const sendVoteTransaction = async (
   messageBytes: string,
   proposalId: string,
-  fid: string,
 ) => {
   const { signer } = getEthers();
   const contractInterface = new ethers.utils.Interface(SAFE_MODULE_ABI);
@@ -36,6 +35,5 @@ export const sendVoteTransaction = async (
       args[3],
       proposalId,
     ]),
-    nonce: crypto.createHash('md5').update(fid).digest('hex'),
   });
 };

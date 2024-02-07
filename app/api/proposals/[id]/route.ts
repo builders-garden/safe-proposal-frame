@@ -50,7 +50,7 @@ async function getResponse(
     }
 
     console.log('Sending vote transaction');
-    await sendVoteTransaction(body.trustedData.messageBytes, id, message?.data.fid!.toString()!);
+    await sendVoteTransaction(body.trustedData.messageBytes, id);
     console.log('Vote transaction sent');
 
     return new NextResponse(resultsResponse(id));
