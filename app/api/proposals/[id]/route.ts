@@ -37,16 +37,19 @@ async function getResponse(
     return new NextResponse(thresholdReachedResponse(id));
   }
 
-  if (message?.data.fid! > 20000) {
-    console.error('Error: invalid fid', { fid: message?.data.fid, minFid: proposal?.minimumFid });
+  const fid = message?.data.fid!;
+
+  if (fid > 20000) {
+    console.error('Error: invalid fid', { fid: fid, minFid: proposal?.minimumFid });
     return new NextResponse(
-      invalidFidResponse(message!.data.fid!.toString(), parseInt(proposal?.minimumFid!), id),
+      invalidFidResponse(fid.toString(), parseInt(proposal?.minimumFid!), id),
     );
   }
 
   try {
-    const didVote = await hasVoted(message?.data.fid!.toString()!, id.toString());
+    const didVote = await hasVoted(fid.toString()!, id.toString());
     if (didVote) {
+      console.log('User already voted', { fid, proposal });
       return new NextResponse(alreadyVotedResponse(id));
     }
 
