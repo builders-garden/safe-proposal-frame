@@ -10,6 +10,7 @@ It leverages the `frame.js` framework for the frame part, a `Safe Module` for pr
 - **Safe Module**: Utilize a Safe Module for secure and efficient vote handling.
   
 ## References
+- our Frame: https://warpcast.com/limone.eth/0x9715d06b
 - Safe address: 0xAb496b30E812270bf3791ea0c17580499d17F1aD
 - Safe Module address: 0x3590D281d523ddCd4c0449C98A1e320066c34636
 - Safe Module code: https://github.com/builders-garden/safe-proposal-frame-contracts
