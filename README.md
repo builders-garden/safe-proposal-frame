@@ -27,7 +27,7 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository:**
 
-git clone https://github.com/yourusername/your-repo-name.git
+git clone https://github.com/builders-garden/safe-proposal-frame.git
 cd your-repo-name
 
 2. **Install dependencies:**
