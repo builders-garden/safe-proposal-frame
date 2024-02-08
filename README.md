@@ -6,7 +6,7 @@ It leverages the `frame.js` framework for the frame part, a `Safe Module` for pr
 ## Features
 
 - **On-Chain Voting**: Enable direct voting on on-chain proposals. A Proposal is a transfer of a certain token amount to an address receiver at the moment.
-- **Real-Time Indexing**: Use The Graph to index voting data from the chain, ensuring up-to-date information using our subgraph ()
+- **Real-Time Indexing**: Use The Graph to index voting data from the chain, ensuring up-to-date information using our subgraph
 - **Safe Module**: Utilize a Safe Module for secure and efficient vote handling.
   
 ## References
